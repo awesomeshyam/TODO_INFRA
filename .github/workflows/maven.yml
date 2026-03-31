@@ -20,4 +20,19 @@ on:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+  security-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Trivy Installation
+      run: |
+        sudo apt-get install wget apt-transport-https gnupg lsb-release
+        wget -q0 - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo deb https://aquasecurity.github.io/trivy-repo/deb $(1sb_release -sc) main | sudo tee
+        sudo apt-get update -y
+        sudo apt-get install trivy -y
+
+ 
+
  
